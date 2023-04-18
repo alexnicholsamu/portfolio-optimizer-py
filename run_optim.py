@@ -1,4 +1,4 @@
-import ticker_select
+import data_collection
 
 symbols_all = ["AAP", "STZ", "COST", "DG", "DPZ", "EL", "LULU", "LVMUY", "TGT", "ARES", "BAC", "BRK-B",
                "CI", "V", "BMY", "CVS", "DHR", "ELV", "ISRG", "SNY", "VEEV", "VRTX", "AGCO", "BLDR",
@@ -15,7 +15,7 @@ data_batch = {"Risk Free Rate": 0.035,
                 "Standard Deviation Perturbation": 0.1}
 
 if __name__ == "__main__":
-    portfolio = ticker_select.collect_data(symbols_all, data_batch, total_portfolio_value)
+    portfolio = data_collection.collect_data(symbols_all, data_batch, total_portfolio_value)
     print(portfolio["Performance"])
     print(portfolio["Ticker Weights"])
     print("\nDiscrete allocation:")
