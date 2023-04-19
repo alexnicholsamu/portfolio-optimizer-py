@@ -12,4 +12,4 @@ Future work includes other optimization techniques (currently using Sharpe Ratio
 
 All files are necessary to run this
 
-License can be found in the [Lisense](LICENSE.md), and any and all suggestions should be emailed to _alexander.k.nichols@gmail.com_
+License can be found in the [License](LICENSE.md), and any and all suggestions should be emailed to _alexander.k.nichols@gmail.com_
