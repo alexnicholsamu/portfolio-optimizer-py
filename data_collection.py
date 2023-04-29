@@ -17,14 +17,13 @@ def downloadData(tickers):
     return price_data
 
 
-def collect_data(symbols, data_batch, total_portfolio_value):
+def collect_data(symbols, data_batch):
     data_batch = data_batch
     ticker_data = downloadData(symbols)
-    total_portfolio_value = total_portfolio_value
-    ticker_weights, performance = optimize.getPerformance(ticker_data, data_batch["Risk Free Rate"])
-    sens_average, sens_std = sensitivity.sensitivityAnalysis(ticker_data, data_batch)
+    ticker_weights, performance = optimize.getPerformance(ticker_data, data_batch["Risk Free Rate"], data_batch["Volatility"])
+    sens_average, sens_std = sensitivity.sensitivityAnalysis(ticker_data, data_batch["Number of Iterations"], data_batch["Volatility"])
     sensitivity_diff = sensitivity.getSensitivityDifference(ticker_weights, sens_average)
-    discrete_allocation = optimize.discreteAllocation(ticker_data, ticker_weights, total_portfolio_value)
+    discrete_allocation = optimize.discreteAllocation(ticker_data, ticker_weights, data_batch["Total Portfolio Value"])
     return {"Performance": performance,
             "Ticker Weights": ticker_weights,
             "Sensitivity Average": sens_average,

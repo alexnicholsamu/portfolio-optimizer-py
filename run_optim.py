@@ -7,16 +7,19 @@ symbols_all = ["AAP", "STZ", "COST", "DG", "DPZ", "EL", "LULU", "LVMUY", "TGT", 
 
 symbols_HC = ["BMY", "CVS", "DHR", "ELV", "ISRG", "SNY", "VEEV", "VRTX"]
 
-total_portfolio_value = 1250000
-data_batch = {"Risk Free Rate": 0.035, 
-                "Number of Iterations": 100, 
-                "Risk Free Rate Pertubation": 0.01, 
-                "Beta Perturbation": 0.1, 
-                "Standard Deviation Perturbation": 0.1}
+data_batch = {"Risk Free Rate": 0.035,  # 10 year treasury bond return
+                "Number of Iterations": 10, 
+                "Volatility": "Minimum",  # Minimum or Maximum
+                "Total Portfolio Value": 1250000}
 
 if __name__ == "__main__":
-    portfolio = data_collection.collect_data(symbols_all, data_batch, total_portfolio_value)
-    print(portfolio["Performance"])
+    portfolio = data_collection.collect_data(symbols_all, data_batch)
+    print("\nReturn on Assets:")
+    print(f"{(portfolio['Performance'][0]*100):.2f}%")
+    print("Volatility:")
+    print(f"{(portfolio['Performance'][1]*100):.2f}%")
+    print("Sharpe Ratio:")
+    print(f"{(portfolio['Performance'][2]):.2f}%\n")
     print(portfolio["Ticker Weights"])
     print("\nDiscrete allocation:")
     print(portfolio["Discrete Allocation"]["Discrete allocation: "])

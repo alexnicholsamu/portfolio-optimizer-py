@@ -2,16 +2,16 @@ from pypfopt import EfficientFrontier, risk_models, expected_returns
 from pypfopt.discrete_allocation import DiscreteAllocation, get_latest_prices
 
 
-def getPerformance(price_data, risk_free_rate):
-    # Calculate expected returns and sample covariance
+def getPerformance(price_data, risk_free_rate, volatility):
     mu = expected_returns.mean_historical_return(price_data)
     s = risk_models.sample_cov(price_data)
-
-    # Optimize for maximal Sharpe ratio
     ef = EfficientFrontier(mu, s)
-    raw_weights = ef.max_sharpe(risk_free_rate=risk_free_rate)
+    if volatility == "Minimum":
+        raw_weights = ef.min_volatility()
+    else:
+        raw_weights = ef.max_sharpe()
     cleaned_weights = ef.clean_weights()
-    return cleaned_weights, ef.portfolio_performance(risk_free_rate=risk_free_rate)  # verbose is why it prints
+    return cleaned_weights, ef.portfolio_performance(risk_free_rate=risk_free_rate)
 
 
 def discreteAllocation(price_data, cleaned_weights, portfolio_value):

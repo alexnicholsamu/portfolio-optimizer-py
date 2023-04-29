@@ -2,15 +2,11 @@ import numpy as np
 import pandas as pd
 from pypfopt import EfficientFrontier, risk_models, expected_returns
 
-def sensitivityAnalysis(price_data, data_batch):
-    risk_free_rate, num_iterations, risk_free_rate_perturbation, beta_perturbation, std_dev_perturbation = data_batch.values()
+
+def sensitivityAnalysis(price_data, num_iterations, volatility):
     results = []
     for i in range(num_iterations):
-        perturbed_risk_free_rate = risk_free_rate * (1 + np.random.normal(0, risk_free_rate_perturbation))
-        perturbed_beta = 1 * (1 + np.random.normal(0, beta_perturbation))
-        perturbed_std_dev = 1 * (1 + np.random.normal(0, std_dev_perturbation))
-
-        weights, performance = optimize_portfolio(price_data, perturbed_risk_free_rate, perturbed_beta, perturbed_std_dev)
+        weights, performance = optimize_portfolio(price_data, volatility)
         results.append(weights)
 
     average_weights = pd.DataFrame(results).mean()
@@ -34,17 +30,17 @@ def getSensitivityDifference(weights, sensitivity_average):
             list_diff[symbol] = round(sensitivity_average.get(symbol) - value, 6)
     return list_diff
 
-def optimize_portfolio(price_data, risk_free_rate, beta, std_dev, weight_bounds=(0, 1)):
+
+def optimize_portfolio(price_data, volatility):
     mu = expected_returns.mean_historical_return(price_data)
     S = risk_models.sample_cov(price_data)
 
-    # Adjust expected returns and covariance matrix based on the input beta and standard deviation
-    adjusted_mu = mu * beta
-    adjusted_S = S * std_dev
-
-    ef = EfficientFrontier(adjusted_mu, adjusted_S, weight_bounds)
-    raw_weights = ef.max_sharpe(risk_free_rate=risk_free_rate)
+    ef = EfficientFrontier(mu, S)
+    if volatility == "Minimum":
+        raw_weights = ef.min_volatility()
+    else:
+        raw_weights = ef.max_sharpe()
     cleaned_weights = ef.clean_weights()
-    performance = ef.portfolio_performance(verbose=False, risk_free_rate=risk_free_rate)
+    performance = ef.portfolio_performance()
 
     return cleaned_weights, performance
