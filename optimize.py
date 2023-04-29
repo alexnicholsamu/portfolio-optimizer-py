@@ -28,3 +28,4 @@ def discreteAllocation(price_data, cleaned_weights, portfolio_value):
     allocation, leftover = da.greedy_portfolio()
     return {"Discrete allocation: ": allocation,
             "Funds remaining": round(leftover, 2)}
+    

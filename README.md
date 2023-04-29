@@ -13,3 +13,7 @@ Future work includes more customized variables for optimization, other forms of 
 All files are necessary to run this
 
 License can be found in the [License](LICENSE.md), and any and all suggestions should be emailed to _alexander.k.nichols@gmail.com_
+
+Example Output for 'symbols' (_29/04/23_)
+
+![Sample Output](./images/sampleoutput.png)

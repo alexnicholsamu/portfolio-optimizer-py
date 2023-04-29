@@ -58,4 +58,3 @@ def collect_data(symbols, data_batch):
     retstring += f"Difference between optimized and sensitivity average: \n{getNames(sensitivity_diff.items())}\n"
     retstring += f"Sensitivity Standard Deviation: \n{getNames(sens_std.items())}"
     return retstring
-    
