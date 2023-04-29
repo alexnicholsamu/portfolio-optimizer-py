@@ -5,6 +5,12 @@ import optimize
 from datetime import date, timedelta
 
 
+def getTreasuryReturn():
+    data = yf.download('^TNX', period='1d')
+    ten_year_treasury_rate = data['Close'][0]
+    return ten_year_treasury_rate
+
+
 def getNames(data):
     """
     Replaces ticker name with company name
