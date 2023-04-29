@@ -3,7 +3,7 @@ import pandas as pd
 from pypfopt import EfficientFrontier, risk_models, expected_returns
 
 
-def sensitivityAnalysis(price_data, num_iterations, volatility):
+def sensitivityAnalysis(price_data, num_iterations, volatility, used_tickers):
     results = []
     for i in range(num_iterations):
         weights, performance = optimize_portfolio(price_data, volatility)
@@ -11,13 +11,18 @@ def sensitivityAnalysis(price_data, num_iterations, volatility):
 
     average_weights = pd.DataFrame(results).mean()
     std_weights = pd.DataFrame(results).std()
+    return getSensitivityData(average_weights, std_weights, used_tickers)
+
+
+def getSensitivityData(average, std, tickers):
     sensitivity_average = {}
     sensitivity_std = {}
-    for symbol, average_weight in average_weights.items():
-        if not average_weight == 0.000000:
+    ticker_list = [ticker for ticker, value in tickers.items() if value != 0.0]
+    for symbol, average_weight in average.items():
+        if symbol in ticker_list:
             sensitivity_average[symbol] = round(average_weight, 4)
-    for symbol, std_weight in std_weights.items():
-        if not std_weight == 0.000000:
+    for symbol, std_weight in std.items():
+        if symbol in ticker_list:
             sensitivity_std[symbol] = round(std_weight, 4)
     return sensitivity_average, sensitivity_std
 
