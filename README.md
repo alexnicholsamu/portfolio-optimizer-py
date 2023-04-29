@@ -6,9 +6,9 @@
 
 ## Summary:
 
-This is my portfolio optimizer, where with the input of stock tickers (represented by some example tickers in symbols_all and symbols_HC), and other optimization factors (current: Risk Free Rate, Number of Iterations, Risk Free Rate Pertubation, Beta Pertubation, Standard Deviation Pertubation) an investor could get the optimzied portfolio for their stocks. With the addition of a portfolio value integer, an investor can now use that information to get numerical values for the amount of shares to buy for each one of the recommended stocks
+This is my portfolio optimizer, where with the input of stock tickers (represented by some example tickers in 'symbols'), and other optimization factors (current: Risk Free Rate, Number of Iterations, Volatility (High/Low), Return Perturbation) an investor could get the optimzied portfolio (in reference to the past 10 years) for their stocks. With the addition of a portfolio value integer, an investor can now use that information to get numerical values for the amount of shares to buy for each one of the recommended stocks. The Reutrn Perturbations will perform sensitivity analysis on the Portfolio.
 
-Future work includes other optimization techniques (currently using Sharpe Ratio), increasing Pertubation checks, and more!
+Future work includes more customized variables for optimization, other forms of optimization (not soley Sharpe Ratio)
 
 All files are necessary to run this
 

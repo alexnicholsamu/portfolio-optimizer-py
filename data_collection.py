@@ -6,6 +6,9 @@ from datetime import date, timedelta
 
 
 def getNames(data):
+    """
+    Replaces ticker name with company name
+    """
     returnString = ""
     for ticker, value in data:
         name = yf.Ticker(ticker)
@@ -15,7 +18,10 @@ def getNames(data):
 
 
 def downloadData(tickers):
-    start_date = date.today() - timedelta(days=2920)
+    """
+    Gathers and organizes closing prices in the past 10 years for stocks
+    """
+    start_date = date.today() - timedelta(days=3650)
     end_date = date.today() - timedelta(days=1)
     data = yf.download(tickers, start=start_date, end=end_date, group_by='ticker', progress=False)
     price_data = pd.DataFrame()
@@ -27,10 +33,13 @@ def downloadData(tickers):
 
 
 def collect_data(symbols, data_batch):
+    """
+    Master method, gathers all data into one spot and formats output
+    """
     data_batch = data_batch
     ticker_data = downloadData(symbols)
     ticker_weights, performance = optimize.getPerformance(ticker_data, data_batch["Risk Free Rate"], data_batch["Volatility"])
-    sens_average, sens_std = sensitivity.sensitivityAnalysis(ticker_data, data_batch["Number of Iterations"], data_batch["Volatility"], ticker_weights)
+    sens_average, sens_std = sensitivity.sensitivityAnalysis(ticker_data, data_batch["Number of Iterations"], data_batch["Volatility"], ticker_weights, data_batch["Return Perturbation"])
     sensitivity_diff = sensitivity.getSensitivityDifference(ticker_weights, sens_average)
     discrete_allocation = optimize.discreteAllocation(ticker_data, ticker_weights, data_batch["Total Portfolio Value"])
     retstring = f"\nReturn on Assets:\n{(performance[0]*100):.2f}%\n" 

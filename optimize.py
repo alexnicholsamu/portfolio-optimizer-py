@@ -3,10 +3,13 @@ from pypfopt.discrete_allocation import DiscreteAllocation, get_latest_prices
 
 
 def getPerformance(price_data, risk_free_rate, volatility):
+    """
+    Finds optimized portfolio based on volatility preference and Risk Free Rate
+    """
     mu = expected_returns.mean_historical_return(price_data)
     s = risk_models.sample_cov(price_data)
     ef = EfficientFrontier(mu, s)
-    if volatility == "Minimum":
+    if volatility == "Low":
         raw_weights = ef.min_volatility()
     else:
         raw_weights = ef.max_sharpe()
@@ -15,6 +18,9 @@ def getPerformance(price_data, risk_free_rate, volatility):
 
 
 def discreteAllocation(price_data, cleaned_weights, portfolio_value):
+    """
+    Finds amount of shares for each stock in the optimized portfolio
+    """
     latest_prices = get_latest_prices(price_data)
     weights = cleaned_weights
 
