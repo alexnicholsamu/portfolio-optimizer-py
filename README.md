@@ -2,7 +2,7 @@
 
 ## Tools used in the creation of this project:
  
-> yfinance, PyPortfolioOpt
+> yfinance, PyPortfolioOpt, Pandas, NumPy
 
 ## Summary:
 
